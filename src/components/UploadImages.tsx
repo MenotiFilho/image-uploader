@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 
+const baseUrl = 'https://image-upload-api.onrender.com';
+
 function UploadImages() {
 	const [dragging, setDragging] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
@@ -41,7 +43,7 @@ function UploadImages() {
 		formData.append('file', file);
 
 		try {
-			const response = await fetch('http://localhost:3000/upload', {
+			const response = await fetch(`${baseUrl}/upload`, {
 				method: 'POST',
 				body: formData,
 			});
@@ -69,71 +71,67 @@ function UploadImages() {
 	};
 
 	return (
-		<div className="h-full w-full flex flex-col items-center justify-center">
+		<div
+			className={
+				'bg-[#FFFFFF] w-[402px] h-[469px] rounded-xl shadow-xl flex flex-col items-center justify-center gap-4'
+			}
+		>
+			<div className="text-[#4F4F4F] text-lg font-medium">
+				Upload your image
+			</div>
+			<div className="text-[#828282] text-xs font-medium">
+				File should be Jpeg, Png,...
+			</div>
 			<div
-				className={
-					'bg-[#FFFFFF] w-[402px] h-[469px] rounded-xl shadow-xl flex flex-col items-center justify-center gap-4'
-				}
+				className={`w-[338px] h-[255px]  bg-[#F6F8FB] border-dashed border-2 mt-3 rounded-2xl flex flex-col items-center justify-center gap-10 ${
+					dragging ? 'border-[#3084fa]' : 'border-[#97BEF4]'
+				}`}
+				onDragEnter={handleDragEnter}
+				onDragOver={handleDragOver}
+				onDragLeave={handleDragLeave}
+				onDrop={handleDrop}
 			>
-				<div className="text-[#4F4F4F] text-lg font-medium">
-					Upload your image
-				</div>
-				<div className="text-[#828282] text-xs font-medium">
-					File should be Jpeg, Png,...
-				</div>
-				<div
-					className={`w-[338px] h-[255px]  bg-[#F6F8FB] border-dashed border-2 mt-3 rounded-2xl flex flex-col items-center justify-center gap-10 ${
-						dragging ? 'border-[#3084fa]' : 'border-[#97BEF4]'
-					}`}
-					onDragEnter={handleDragEnter}
-					onDragOver={handleDragOver}
-					onDragLeave={handleDragLeave}
-					onDrop={handleDrop}
-				>
-					{file ? (
-						<div className="flex flex-col items-center justify-center gap-5">
-							<img
-								src={URL.createObjectURL(file)}
-								alt=""
-								className="w-3/4 h-fit rounded-2xl shadow-xl"
-							/>
-							<div className="text-[#4F4F4F] font-medium">
-								{selectedFileName}
-							</div>
+				{file ? (
+					<div className="flex flex-col items-center justify-center gap-5">
+						<img
+							src={URL.createObjectURL(file)}
+							alt=""
+							className="w-3/4 h-fit rounded-2xl shadow-xl"
+						/>
+						<div className="text-[#4F4F4F] font-medium">{selectedFileName}</div>
+					</div>
+				) : (
+					<>
+						<img src="/src/assets/image.svg" alt="" className="w-[114px]" />
+						<div className="text-[#BDBDBD] text-xs font-medium">
+							Drag & Drop your image here
 						</div>
-					) : (
-						<>
-							<img src="/src/assets/image.svg" alt="" className="w-[114px]" />
-							<div className="text-[#BDBDBD] text-xs font-medium">
-								Drag & Drop your image here
-							</div>
-						</>
-					)}
-				</div>
-				<div className="flex gap-3">
-					<button
-						className="bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg"
-						onClick={handleChooseFile}
-					>
-						Choose a file
-					</button>
-					<input
-						type="file"
-						accept="image/*"
-						ref={fileInputRef}
-						style={{ display: 'none' }}
-						onChange={handleFileInputChange}
-					/>
-					<button
-						className={`bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg ${
-							file ? '' : 'opacity-50 pointer-events-none '
-						}`}
-						onClick={handleUpload}
-						disabled={!file}
-					>
-						Upload file
-					</button>
-				</div>
+					</>
+				)}
+			</div>
+			<div className="flex gap-3">
+				<button
+					className="bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg"
+					onClick={handleChooseFile}
+				>
+					Choose a file
+				</button>
+				<input
+					type="file"
+					accept="image/*"
+					ref={fileInputRef}
+					style={{ display: 'none' }}
+					onChange={handleFileInputChange}
+				/>
+				<button
+					className={`bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg ${
+						file ? '' : 'opacity-50 pointer-events-none '
+					}`}
+					onClick={handleUpload}
+					disabled={!file}
+				>
+					Upload file
+				</button>
 			</div>
 		</div>
 	);
