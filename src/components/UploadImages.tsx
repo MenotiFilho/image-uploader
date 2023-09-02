@@ -109,6 +109,7 @@ function UploadImages() {
 					</>
 				)}
 			</div>
+			{/* Buttons */}
 			<div className="flex gap-3">
 				<button
 					className="bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg"
