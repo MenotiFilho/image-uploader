@@ -25,7 +25,7 @@ function RecentImages() {
 						(a, b) =>
 							new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
 					)
-					.slice(0, 3);
+					.slice(0, 20);
 				setRecentImages(sortedFiles);
 				console.log(sortedFiles);
 			})
