@@ -1,4 +1,3 @@
-// src/components/RecentImages.tsx
 import { useEffect, useState } from 'react';
 
 interface UploadedFile {
@@ -8,7 +7,7 @@ interface UploadedFile {
 	dateTime: string;
 }
 
-const baseUrl = 'https://image-upload-api.onrender.com';
+const baseUrl = 'http://localhost:3001';
 
 function RecentImages() {
 	const [recentImages, setRecentImages] = useState<UploadedFile[]>([]);

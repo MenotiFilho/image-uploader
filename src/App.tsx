@@ -2,12 +2,8 @@ import { CloudArrowUp } from 'phosphor-react';
 import './App.css';
 import RecentImages from './components/RecentImages';
 import UploadImages from './components/UploadImages';
-import {
-	BrowserRouter as Router,
-	Link,
-	Routes,
-	Route as RouteV6,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
+import UploadSuccess from './components/UploadSuccess';
 
 function App() {
 	return (
@@ -40,8 +36,9 @@ function App() {
 				</div>
 				<div className="w-full h-full flex flex-col items-center justify-start">
 					<Routes>
-						<RouteV6 path="/recentimages" element={<RecentImages />} />
-						<RouteV6 path="/" element={<UploadImages />} />
+						<Route path="/recentimages" element={<RecentImages />} />
+						<Route path="/success/:imageUrl" element={<UploadSuccess />} />
+						<Route path="/" element={<UploadImages />} />
 					</Routes>
 				</div>
 				<div className=" text-[#A9A9A9] text-sm">

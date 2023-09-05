@@ -1,12 +1,20 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import UploadLoading from './UploadLoading';
+import UploadSuccess from './UploadSuccess';
 
-const baseUrl = 'https://image-upload-api.onrender.com';
+const baseUrl = 'http://localhost:3001';
 
 function UploadImages() {
+	const navigate = useNavigate(); // Use useNavigate to access navigation function
 	const [dragging, setDragging] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+	const [uploadStatus, setUploadStatus] = useState<
+		'idle' | 'loading' | 'success' | 'error'
+	>('idle');
+	const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
 	const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
@@ -28,6 +36,7 @@ function UploadImages() {
 		setDragging(false);
 		const droppedFile = e.dataTransfer.files[0];
 		setFile(droppedFile);
+		setSelectedFileName(droppedFile.name);
 	};
 
 	const handleChooseFile = () => {
@@ -42,6 +51,8 @@ function UploadImages() {
 		const formData = new FormData();
 		formData.append('file', file);
 
+		setUploadStatus('loading');
+
 		try {
 			const response = await fetch(`${baseUrl}/upload`, {
 				method: 'POST',
@@ -50,15 +61,16 @@ function UploadImages() {
 
 			if (response.ok) {
 				const fileInfo = await response.json();
-				console.log('File uploaded:', fileInfo);
-				// Reset the file input and selectedFileName state
-				setFile(null);
-				setSelectedFileName(null);
+				setUploadedImageUrl(`${baseUrl}${fileInfo.url}`);
+				setUploadStatus('success');
+				navigate(`/success/${encodeURIComponent(baseUrl + fileInfo.url)}`);
 			} else {
 				console.error('File upload failed.');
+				setUploadStatus('error');
 			}
 		} catch (error) {
 			console.error('File upload error:', error);
+			setUploadStatus('error');
 		}
 	};
 
@@ -69,6 +81,12 @@ function UploadImages() {
 			setSelectedFileName(selectedFile.name);
 		}
 	};
+
+	if (uploadStatus === 'loading') {
+		return <UploadLoading />;
+	} else if (uploadStatus === 'success') {
+		return <UploadSuccess />;
+	}
 
 	return (
 		<div
@@ -109,7 +127,6 @@ function UploadImages() {
 					</>
 				)}
 			</div>
-			{/* Buttons */}
 			<div className="flex gap-3">
 				<button
 					className="bg-[#2F80ED] text-[#FFFFFF] font-medium text-xs w-[101px] h-[32px] rounded-lg"
