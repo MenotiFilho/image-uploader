@@ -4,6 +4,7 @@ import RecentImages from './components/RecentImages';
 import UploadImages from './components/UploadImages';
 import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import UploadSuccess from './components/UploadSuccess';
+import { useParams } from 'react-router-dom';
 
 function App() {
 	return (
@@ -37,7 +38,12 @@ function App() {
 				<div className="w-full h-full flex flex-col items-center justify-start">
 					<Routes>
 						<Route path="/recentimages" element={<RecentImages />} />
-						<Route path="/success/:imageUrl" element={<UploadSuccess />} />
+						<Route
+							path="/success/:imageUrl"
+							element={
+								<UploadSuccess imageUrl={useParams().imageUrl || null} />
+							}
+						/>
 						<Route path="/" element={<UploadImages />} />
 					</Routes>
 				</div>
