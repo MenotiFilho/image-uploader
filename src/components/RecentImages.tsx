@@ -7,7 +7,7 @@ interface UploadedFile {
 	dateTime: string;
 }
 
-const baseUrl = 'http://localhost:3001';
+const baseUrl = 'https://image-upload-api.onrender.com';
 
 function RecentImages() {
 	const [recentImages, setRecentImages] = useState<UploadedFile[]>([]);

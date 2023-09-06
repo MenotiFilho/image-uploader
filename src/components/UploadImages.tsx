@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UploadLoading from './UploadLoading';
 import UploadSuccess from './UploadSuccess';
 
-const baseUrl = 'http://localhost:3001';
+const baseUrl = 'https://image-upload-api.onrender.com';
 
 function UploadImages() {
 	const navigate = useNavigate(); // Use useNavigate to access navigation function
