@@ -32,6 +32,11 @@ function RecentImages() {
 			});
 	}, []);
 
+	function isValidDate(dateString: string): boolean {
+		const date = new Date(dateString);
+		return !isNaN(date.getTime());
+	}
+
 	return (
 		<ul className="grid grid-cols-2 lg:grid-cols-3 gap-3 w-2/3">
 			{recentImages.map((file) => (
@@ -55,12 +60,9 @@ function RecentImages() {
 						</a>
 						<p className="text-[#BDBDBD] text-xs font-medium self-start ml-1 mb-1">
 							Upload Date:{' '}
-							{file.dateTime instanceof Date
+							{isValidDate(file.dateTime)
 								? new Date(file.dateTime).toLocaleString()
-								: new Date(
-										file.dateTime._seconds * 1000 +
-											file.dateTime._nanoseconds / 1000000
-								  ).toLocaleString()}
+								: 'Invalid Date'}
 						</p>
 					</div>
 				</li>
