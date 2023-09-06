@@ -1,9 +1,6 @@
 import { useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
 
-function UploadSuccess() {
-	const { imageUrl } = useParams<{ imageUrl: string }>();
-
+function UploadSuccess({ imageUrl }: { imageUrl: string | null }) {
 	const [copied, setCopied] = useState(false);
 	const inputRef = useRef<HTMLInputElement | null>(null);
 

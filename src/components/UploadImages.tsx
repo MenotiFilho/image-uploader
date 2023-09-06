@@ -85,7 +85,7 @@ function UploadImages() {
 	if (uploadStatus === 'loading') {
 		return <UploadLoading />;
 	} else if (uploadStatus === 'success') {
-		return <UploadSuccess />;
+		return <UploadSuccess imageUrl={uploadedImageUrl} />;
 	}
 
 	return (
