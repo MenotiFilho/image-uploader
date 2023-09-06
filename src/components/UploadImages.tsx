@@ -14,7 +14,6 @@ function UploadImages() {
 	const [uploadStatus, setUploadStatus] = useState<
 		'idle' | 'loading' | 'success' | 'error'
 	>('idle');
-	const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
 	const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
@@ -61,7 +60,6 @@ function UploadImages() {
 
 			if (response.ok) {
 				const fileInfo = await response.json();
-				setUploadedImageUrl(`${baseUrl}${fileInfo.url}`);
 				setUploadStatus('success');
 				navigate(`/success/${encodeURIComponent(baseUrl + fileInfo.url)}`);
 			} else {
@@ -85,7 +83,7 @@ function UploadImages() {
 	if (uploadStatus === 'loading') {
 		return <UploadLoading />;
 	} else if (uploadStatus === 'success') {
-		return <UploadSuccess imageUrl={uploadedImageUrl} />;
+		return <UploadSuccess />;
 	}
 
 	return (
