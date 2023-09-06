@@ -26,7 +26,6 @@ function RecentImages() {
 					)
 					.slice(0, 20);
 				setRecentImages(sortedFiles);
-				console.log(sortedFiles);
 			})
 			.catch((error) => {
 				console.error('Error fetching recent images:', error);
@@ -55,7 +54,13 @@ function RecentImages() {
 							{file.filename}
 						</a>
 						<p className="text-[#BDBDBD] text-xs font-medium self-start ml-1 mb-1">
-							Upload Date: {new Date(file.dateTime).toLocaleString()}
+							Upload Date:{' '}
+							{file.dateTime instanceof Date
+								? new Date(file.dateTime).toLocaleString()
+								: new Date(
+										file.dateTime._seconds * 1000 +
+											file.dateTime._nanoseconds / 1000000
+								  ).toLocaleString()}
 						</p>
 					</div>
 				</li>
